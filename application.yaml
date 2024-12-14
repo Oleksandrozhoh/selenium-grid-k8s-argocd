@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/Oleksandrozhoh/selenium-grid-k8s-argocd.git
     targetRevision: HEAD
-    path: applilcation
+    path: application
   destination:
     server: https://kubernetes.default.svc
     namespace: default
