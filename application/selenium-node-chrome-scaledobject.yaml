@@ -1,0 +1,17 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: selenium-node-chrome-scaledobject
+  labels:
+    deploymentName: selenium-node-chrome
+spec:
+  maxReplicaCount: 8
+  scaleTargetRef:
+    name: selenium-node-chrome
+  triggers:
+    - type: selenium-grid
+      metadata:
+        url: 'http://selenium-hub.default.svc.cluster.local:4444/graphql' # confirm default selenium grid Rest API andpoint
+        browserName: 'chrome'
+        metricsName: 'pendingSessions' # once hub endpoint is exposed confirm metricsName for pending sessions
+        threshold: '1'                # setting it to 1 for now for easy testing of scaling

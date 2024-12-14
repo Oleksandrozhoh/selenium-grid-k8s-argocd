@@ -1,0 +1,6 @@
+iamRoleForEksAutoscaler: arn:aws:iam::339712835459:role/eks-cluster-autoscaler
+clusterAutoscalerImageVersion: v1.31.0 ## must match with eks k8s version
+autoScalingGroupName: eks-dev_node_group-5ac9e0b0-e467-0cc2-3b13-9f652a98d8f9
+maxNodes: 10
+minNodes: 1
+awsRegion: us-east-1

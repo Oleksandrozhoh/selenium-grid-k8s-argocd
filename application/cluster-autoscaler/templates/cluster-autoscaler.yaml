@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cluster-autoscaler
+  namespace: kube-system
+  labels:
+    app: cluster-autoscaler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cluster-autoscaler
+  template:
+    metadata:
+      labels:
+        app: cluster-autoscaler
+    spec:
+      serviceAccountName: cluster-autoscaler
+      containers:
+        - name: cluster-autoscaler
+          image: "k8s.gcr.io/autoscaling/cluster-autoscaler:{{ .Values.clusterAutoscalerImageVersion }}"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 300Mi
+            limits:
+              cpu: 100m
+              memory: 300Mi
+          command:
+            - ./cluster-autoscaler
+            - --v=4
+            - --stderrthreshold=info
+            - --cloud-provider=aws
+            - --skip-nodes-with-local-storage=false
+            - --nodes={{ .Values.minNodes }}:{{ .Values.maxNodes }}:{{ .Values.autoScalingGroupName }}
+            - --skip-nodes-with-system-pods=false
+            - --scale-down-unneeded-time=2m
+            - --scale-down-utilization-threshold=0.4
+            - --scale-down-delay-after-add=2m 
+            - --balance-similar-node-groups
+            - --daemonset-eviction-for-empty-nodes
+            - --skip-nodes-with-local-storage=false
+          env:
+            - name: AWS_REGION
+              value: {{ .Values.awsRegion }}
