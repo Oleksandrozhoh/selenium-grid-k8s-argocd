@@ -4,14 +4,14 @@ metadata:
   name: selenium-hub-ingress
   namespace: default
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false" ## set to true in case want to route all http traffic to https
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
   tls:
   - hosts:
     - selenium-grid.oleksandrozhoh.casa
-    secretName: selenium-grid-tls-secret
+    secretName: selenium-grid-tls-secret ## right now ssl is terminated on AWS LB level, in case https traffic comes from LB need to add correct cert to this secret to be able to ssl terminate on ingress level
   rules:
   - host: selenium-grid.oleksandrozhoh.casa
     http:
