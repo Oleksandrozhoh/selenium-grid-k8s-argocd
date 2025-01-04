@@ -9,7 +9,11 @@ spec:
   rules:
   - host: selenium-grid.oleksandrozhoh.casa
     http:
-      path:
-      - backend: 
-          serviceName: selenium-hub
-          servicePort: 4444
+      paths:
+      - path: /
+        pathType: Prefix
+        backend: 
+          service: 
+            name: selenium-hub
+            port: 
+              number: 4444
